@@ -122,3 +122,16 @@ FROM PopVSVac;
 --Test Percent_Population_Vaccinated VIEW
 SELECT * FROM Percent_Population_Vaccinated;
 
+--Save for analysis
+Select location, SUM(CAST(new_deaths AS INT)) AS TotalDeathCount
+FROM CovidDeaths
+WHERE continent IS NULL
+AND location NOT IN ('World','European Union', 'International')
+GROUP BY LOCATION
+ORDER BY TotalDeathCount DESC;
+
+
+SELECT location, population, date, MAC(total_cases) AS HighestInfectionCount, MAX((total_cases/population))*100 AS PercentPopulationInfected
+FROM CovidDeaths
+GROUP BY location, population, date
+ORDER BY PercentPopulationInfected DESC;
